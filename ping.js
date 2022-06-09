@@ -2,7 +2,7 @@ const Monitor = require('ping-monitor');
 const nodemailer = require('nodemailer');
 
 const webserver = "10.0.0.2"
-const local_PsExec = "C:\\Users\\roberto.stelling\\Downloads\\PSTools\\PsExec.exe"
+const local_PsExec = ".\\PSTools\\PsExec.exe"
 const comando = "shutdown /r /d p:0:0"
 
 
@@ -34,8 +34,8 @@ let timeout = 0
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'ti.estagio@crprj.org.br',
-        pass: 'crp*2021'
+        user: '',                                                               //<---------------- login do e-mail
+        pass: ''                                                                //<---------------- senha do e-mail
     }
 });
 
@@ -74,7 +74,7 @@ const resetWebServer =  () =>{
     const bat = spawn('cmd.exe',[
     
         '/c',
-        `${local_PsExec} \\\\${webserver} -accepteula -i -u CRPRJ\\administrator -p Nuncavaisaber12 cmd.exe /c `,
+        `${local_PsExec} \\\\${webserver} -accepteula -i -u CRPRJ\\administrator -p *** cmd.exe /c `,
         `${comando}`
     
     ]);
@@ -110,8 +110,8 @@ const resetWebServer =  () =>{
 
 const myMonitor = new Monitor({
 
-    website: 'http://www.crprj.org.br/site/',
-    title: 'CRPRJ',
+    website: 'http://www.crprj.org.br/site/',                   //<---------------- site a ser monitorado
+    title: 'CRPRJ',                                                 
     interval: 1,
     
 
@@ -177,13 +177,13 @@ myMonitor.on('timeout', function (error, res) {       //<-----------------------
         //<------------------------------------------------------------------------------------------------------ENVIO DE E-MAIL, CASO TENHA TIMEOUTS SEGUIDOS
         var mailOptions = {
             from: {
-                name: 'Monitor do site do CRPRJ',
-                address: 'estagio.ti@crprj.org.br'
+                name: 'Monitor do site',                                   
+                address: ''
             },
         
-            to: 'helpdesk@crprj.org.br',
-            subject: 'Alerta de lentidão: O site do CRPRJ parece estar lento',
-            text: 'Segundo a aplicação monitora, o site www.crprj.org.br vem apresentando lentidão por pelo menos 10 minutos. Favor, verificar.'
+            to: '',
+            subject: 'Alerta de lentidão: O site parece estar lento',
+            text: 'Segundo a aplicação monitora, o site ________ vem apresentando lentidão por pelo menos 10 minutos. Favor, verificar.'
         };
     
         //sendmail(mailOptions)
@@ -216,21 +216,23 @@ myMonitor.on('down', function (res) {       //<---------------------------------
 
 
         //<----------------------------------------------------------------------------------------------ENVIO DE E-MAIL, CASO OFFLINE
+        
+        
         /*
         var mailOptions = {
             from: {
-                name: 'Monitor do site do CRPRJ',
-                address: 'estagio.ti@crprj.org.br'
+                name: 'Monitor do site',
+                address: ''
             },
         
-            to: 'helpdesk@crprj.org.br',
-            subject: 'Alerta: O site do CRPRJ parece estar fora do ar',
-            text: 'Segundo a aplicação monitora, estamos enfrentando algum problema no site www.crprj.org.br. Favor, verificar.'
+            to: '',
+            subject: 'Alerta: O site parece estar fora do ar',
+            text: 'Segundo a aplicação monitora, estamos enfrentando algum problema no site . Favor, verificar.'
         };
     
         sendmail()
-
         */
+        
 
 
 
